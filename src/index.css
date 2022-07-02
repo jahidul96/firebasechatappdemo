@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* similar classes..styles */
+
+.inputStyle {
+    @apply mb-3 w-full p-2 rounded-lg outline-none
+}
+
+.btnStyle {
+    @apply ring-2 ring-white text-white px-10 py-2 mt-3 rounded-lg
+}
+
+.singinAndLoginWrapper {
+    @apply rounded-lg shadow-md p-3 flex flex-col justify-center items-center
+}
+
+/* custom styles */
+
+.sideBarStyle {
+    height: calc(100vh-64px);
+
+}
+
+.textAreaHeight {
+    height: calc(100vh - 64px);
+    width: 100%;
+
+}
+
+.messagesDiv {
+    width: 100%;
+    height: 460px;
+}
+
+.messageWrapper {
+    width: 45%;
+    max-height: 100px;
+
+
+    background-color: aquamarine;
+    padding: 10px;
+
+
+}
