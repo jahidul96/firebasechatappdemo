@@ -67,7 +67,7 @@ export default function Home() {
                 <ChatUser selectUser={selectUser} users={users} />
             </div>
             <div className="flex divide-x divide-slate-200 overflow-hidden">
-                <div className="md:block hidden">
+                <div className="md:block hidden rounded-tr-xl">
                     <Sidebar selectUser={selectUser} users={users} />
                 </div>
 

@@ -12,7 +12,7 @@ const Navbar = () => {
     }
     return (
         <div
-            className='flex h-16 ligthBlueColor items-center justify-between px-3 text-white'
+            className='flex h-16 darkBlack items-center justify-between px-3 text-white'
         >
             <div
                 className=''
@@ -24,7 +24,7 @@ const Navbar = () => {
             >
                 <ButtonComp
                     btnText='Signout'
-                    className="darkBlueColor ml-6 px-4 py-1 rounded-md "
+                    className="darkGrayColor ml-6 px-4 py-1 rounded-md "
                     submitDetais={signOutHandler}
                 />
             </div>
