@@ -9,23 +9,29 @@ const Login = ({ setShow }) => {
 
 
     const submitDetais = async () => {
+        if (!email || !password) {
+            return alert('please fill all the inputs')
+        }
+        if (email.length < 6 || password.length < 6) {
+            return alert('please provide right creadential!')
+        }
         try {
             await signInWithEmailAndPassword(auth, email, password)
             console.log('login succesfull')
         } catch (err) {
-            console.log(err.message)
+            alert(err.message)
         }
 
     }
     return (
         <div
-            className='h-screen w-full flex justify-center items-center bg-gray-600'
+            className='h-screen w-full flex justify-center items-center darkGrayColor'
         >
             <div
                 className='
                 w-80 
                 h-2/4
-                bg-red-500 
+                darkBlack 
                 singinAndLoginWrapper
                 '
 
@@ -34,17 +40,19 @@ const Login = ({ setShow }) => {
                     placeholder='email'
                     className='inputStyle'
                     setValue={setEmail}
+                    value={email}
                 />
                 <InputComp
                     placeholder='password'
                     className='inputStyle'
                     setValue={setPassword}
                     type={'password'}
+                    value={password}
                 />
 
                 <ButtonComp
                     btnText='Login'
-                    className="bg-gray-500 btnStyle "
+                    className="darkGrayColor btnStyle "
                     submitDetais={submitDetais}
                 />
                 <div

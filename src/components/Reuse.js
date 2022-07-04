@@ -1,11 +1,12 @@
 
 
-export const InputComp = ({ placeholder, className, setValue, type }) => (
+export const InputComp = ({ placeholder, className, setValue, type, value }) => (
     <input
         className={`${className}`}
         placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}
         type={type}
+        value={value}
     />
 )
 

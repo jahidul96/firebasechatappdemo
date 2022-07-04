@@ -4,6 +4,12 @@ import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
     //    api key here
+    apiKey: "AIzaSyCeSQ6z-fwZNJ6U7UDFhqQIdHh6tkmlEWE",
+    authDomain: "tuorgang.firebaseapp.com",
+    projectId: "tuorgang",
+    storageBucket: "tuorgang.appspot.com",
+    messagingSenderId: "186485655222",
+    appId: "1:186485655222:web:ec89cdf59e4f0fef468817"
 
 };
 

@@ -1,9 +1,10 @@
 import React from 'react'
+import Person from '../images/person.jpg'
 
 const Sidebar = ({ selectUser, users }) => {
 
     return (
-        <div className='w-80 overflow-y-auto sideBarStyle'>
+        <div className='w-64  overflow-y-auto sideBarStyle'>
             <ChatUser selectUser={selectUser} users={users} />
         </div>
     )
@@ -11,22 +12,28 @@ const Sidebar = ({ selectUser, users }) => {
 
 export default Sidebar
 
-const ChatUser = ({ selectUser, users }) => {
+export const ChatUser = ({ selectUser, users }) => {
     return (
         <>
             {
                 users.length ? users.map(user => (
                     <div
                         key={user.uid}
-                        className='flex m-2 cursor-pointer rounded-lg items-center justify-between p-3 bg-gray-300'
+                        className='flex mx-2 my-3  cursor-pointer rounded-lg items-center md:justify-between px-3 py-2 lightGary'
                         onClick={() => selectUser(user)}
                     >
                         <img
-                            className='w-8 h-8 rounded-xl '
-                            src='https://th.bing.com/th/id/OIP.fmZjDHGKQRbXqqngsT1qSwHaHl?pid=ImgDet&rs=1' alt='avator' />
-                        <p>{user.username}</p>
+                            className='w-6 h-6 rounded-xl '
+                            src={Person} alt='avator' />
+                        <p className='md:ml-0 ml-4 font-semibold'>{user.username.toUpperCase()}</p>
                     </div>
-                )) : <><p>No user found</p></>
+                )) :
+                    <div
+                        className='h-full w-full flex justify-center items-center'
+                    >
+                        <p
+                            className='text-center py-2 font-semibold'
+                        >No user found</p></div>
             }
         </>
     )

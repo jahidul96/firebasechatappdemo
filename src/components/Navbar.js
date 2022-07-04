@@ -12,20 +12,19 @@ const Navbar = () => {
     }
     return (
         <div
-            className='flex h-16 bg-red-400 items-center justify-between px-3 text-white'
+            className='flex h-16 ligthBlueColor items-center justify-between px-3 text-white'
         >
             <div
                 className=''
             >
-                <h3>ChatApp</h3>
+                <h3 className='text-lg'>JITextApp</h3>
             </div>
             <div
                 className='flex items-center'
             >
-                <p>Profile</p>
                 <ButtonComp
                     btnText='Signout'
-                    className="bg-gray-500 ml-6 px-4 py-1 rounded-md "
+                    className="darkBlueColor ml-6 px-4 py-1 rounded-md "
                     submitDetais={signOutHandler}
                 />
             </div>

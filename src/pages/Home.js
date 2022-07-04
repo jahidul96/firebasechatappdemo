@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Sidebar, { ChatUser } from "../components/Sidebar";
 import TextArea from "../components/TextArea";
 
 import { collection, getDocs, doc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
@@ -17,7 +17,7 @@ export default function Home() {
     const [messages, setMessages] = useState([]);
 
     const thisUser = auth.currentUser.uid
-    const selecteduserId = chatUser.uid
+
 
 
 
@@ -26,7 +26,7 @@ export default function Home() {
     const selectUser = (chattter) => {
         setChatUser(chattter)
 
-        const id = thisUser > selecteduserId ? `${thisUser + selecteduserId}` : `${selecteduserId + thisUser}`;
+        const id = thisUser > chattter.uid ? `${thisUser + chattter.uid}` : `${chattter.uid + thisUser}`;
 
         const msgsRef = collection(db, "messages", id, 'chat');
         const q = query(msgsRef, orderBy("createdAt", "asc"));
@@ -38,6 +38,8 @@ export default function Home() {
             });
             setMessages(msgs);
         });
+
+        window.scrollTo(2000, 2000)
 
     }
     console.log(messages)
@@ -56,15 +58,20 @@ export default function Home() {
             setUsers(users)
 
         });
-        return () => unsub();
     }, [])
 
     return (
         <div>
             <Navbar />
+            <div className='w-full md:hidden sm:block'>
+                <ChatUser selectUser={selectUser} users={users} />
+            </div>
             <div className="flex divide-x divide-slate-200 overflow-hidden">
-                <Sidebar selectUser={selectUser} users={users} />
-                <div className="flex-1 textAreaHeight">
+                <div className="md:block hidden">
+                    <Sidebar selectUser={selectUser} users={users} />
+                </div>
+
+                <div className="md:flex-1  textAreaHeight">
                     <TextArea chatUser={chatUser} msgs={messages} />
                 </div>
 

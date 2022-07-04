@@ -10,7 +10,7 @@
 }
 
 .btnStyle {
-    @apply ring-2 ring-white text-white px-10 py-2 mt-3 rounded-lg
+    @apply ring-1 ring-white text-white px-10 py-1 mt-3 rounded-lg
 }
 
 .singinAndLoginWrapper {
@@ -24,24 +24,78 @@
 
 }
 
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #fafafa;
+}
+
 .textAreaHeight {
     height: calc(100vh - 64px);
     width: 100%;
+    position: relative;
 
+
+}
+
+
+.smallScreenPadding {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
 }
 
 .messagesDiv {
     width: 100%;
     height: 460px;
+    scrollbar-width: none !important;
 }
 
-.messageWrapper {
-    width: 45%;
-    max-height: 100px;
+.msgTextStyle {
+    max-width: 45%;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
 
+@media(max-width:400px) {
+    .smallScreenPadding {
+        padding: 0 10px;
+    }
+}
 
-    background-color: aquamarine;
-    padding: 10px;
+.darkBlueColor {
+    background-color: #1363DF;
+}
 
+.darkGrayColor {
+    background-color: #06283D;
+}
 
+.signUpBtnColor {
+    background-color: #F94C66;
+}
+
+.lightGary {
+    background-color: #F9F9F9;
+}
+
+.lightGary:hover {
+    background-color: #eae6e6;
+}
+
+.ligthBlueColor {
+    background-color: #34B3F1;
+}
+
+.darkBlack {
+    background-color: #205375;
 }
