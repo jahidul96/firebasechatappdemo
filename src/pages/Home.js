@@ -1,8 +1,7 @@
 
 
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Sidebar, { ChatUser } from "../components/Sidebar";
+import Sidebar, { ChatUser, Profile } from "../components/Sidebar";
 import TextArea from "../components/TextArea";
 
 import { collection, getDocs, doc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
@@ -42,7 +41,6 @@ export default function Home() {
         window.scrollTo(2000, 2000)
 
     }
-    console.log(messages)
 
 
     useEffect(() => {
@@ -62,17 +60,29 @@ export default function Home() {
 
     return (
         <div>
-            <Navbar />
-            <div className='w-full md:hidden sm:block'>
-                <ChatUser selectUser={selectUser} users={users} />
+            <div className='w-full  px-2 md:hidden sm:block'>
+                <Profile />
             </div>
-            <div className="flex divide-x divide-slate-200 overflow-hidden">
-                <div className="md:block hidden rounded-tr-xl">
-                    <Sidebar selectUser={selectUser} users={users} />
+            <div className='w-full md:hidden sm:block'>
+                <ChatUser
+                    selectUser={selectUser}
+                    users={users}
+                />
+            </div>
+            <div className="flex md:divide-x md:divide-slate-500 overflow-hidden">
+                <div className="md:block hidden ">
+                    <Sidebar
+                        selectUser={selectUser}
+                        users={users}
+                        chatUser={chatUser}
+                    />
                 </div>
 
                 <div className="md:flex-1  textAreaHeight">
-                    <TextArea chatUser={chatUser} msgs={messages} />
+                    <TextArea
+                        chatUser={chatUser}
+                        msgs={messages}
+                    />
                 </div>
 
             </div>

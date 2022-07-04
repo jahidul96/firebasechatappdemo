@@ -4,6 +4,8 @@ import { collection, addDoc, Timestamp, } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { auth, db, storage } from '../firebase'
 import { GrGallery } from 'react-icons/gr'
+import { FiDelete } from 'react-icons/fi'
+import { AiOutlineSend } from 'react-icons/ai'
 
 
 const TextArea = ({ chatUser, msgs }) => {
@@ -18,7 +20,6 @@ const TextArea = ({ chatUser, msgs }) => {
     const submitDetais = async (e) => {
         e.preventDefault()
 
-
         let url;
         if (img) {
             const imgRef = ref(
@@ -29,17 +30,22 @@ const TextArea = ({ chatUser, msgs }) => {
             const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
             url = dlUrl;
         }
-        addDoc(collection(db, "messages", id, "chat"), {
+        await addDoc(collection(db, "messages", id, "chat"), {
             text: text || '',
             from: userMe.email,
             to: chatUser.email,
             createdAt: Timestamp.fromDate(new Date()),
             Image: url || "",
         });
+
+
+
         setText("");
         setImg('')
-        console.log('text sent')
 
+    }
+    const removeImg = () => {
+        setImg('')
     }
 
 
@@ -48,16 +54,15 @@ const TextArea = ({ chatUser, msgs }) => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [msgs]);
 
-
     return (
         <>
             {
                 chatUser ?
-                    <div className=''>
-                        <div className='h-16 darkBlack flex items-center justify-center'>
-                            <p className='text-white font-medium md:text-xl'>{chatUser.username.toUpperCase()}</p>
+                    <div className='relative overflow-hidden'>
+                        <div className='h-16 darkGrayColor flex items-center justify-center'>
+                            <p className=' font-medium text-white md:text-lg'>{chatUser.username.toUpperCase()}</p>
                         </div>
-                        <div className='messagesDiv  p-3 overflow-y-auto '>
+                        <div className='messagesDiv md:px-5 px-3  py-3 overflow-y-auto '>
 
                             {
                                 msgs.map((msg, i) => (
@@ -67,13 +72,16 @@ const TextArea = ({ chatUser, msgs }) => {
                                         className={`flex  items-center mt-2 ${msg.from == userMe.email ? 'justify-end' : 'justify-start'}`}>
 
                                         {
-                                            msg.Image ? <div className='chatMsgImgWrapper my-3'>
-                                                <img src={msg.Image} alt="sent" />
+                                            msg.Image ? <div className='chatMsgImgWrapper my-1'>
+                                                <img
+                                                    src={msg.Image}
+                                                    alt="sent"
+                                                />
                                                 {
-                                                    msg.text != '' && <p className={`${msg.from == userMe.email ? 'ligthBlueColor text-white' : 'lightGary text-black'} msgTextStyle p-2  mb-3 md:text-base font-normal text-xs align-baseline`}>{msg.text}</p>
+                                                    msg.text != '' && <p className={`${msg.from == userMe.email ? 'myMsg' : 'friendMsg'} similatmasTextStyle md:text-base mt-2 `}>{msg.text}</p>
                                                 }
 
-                                            </div> : <p className={`${msg.from == userMe.email ? 'ligthBlueColor text-white' : 'lightGary text-black'} msgTextStyle p-2 rounded-md mb-3 md:text-base font-normal text-xs align-baseline`}>{msg.text}</p>
+                                            </div> : <p className={`${msg.from == userMe.email ? 'myMsg' : 'friendMsg'} msgTextStyle p-2  mb-3 md:text-base similatmasTextStyle`}>{msg.text}</p>
                                         }
 
 
@@ -83,8 +91,33 @@ const TextArea = ({ chatUser, msgs }) => {
                                 ))
                             }
 
+
+
                         </div>
-                        <form className='h-16 darkBlack flex items-center justify-center smallScreenPadding'>
+
+                        {
+                            img.name && (
+                                <div
+                                    className='w-full h-14 flex items-center justify-center absolute bottom-20 bg-white left-0  '
+                                >
+                                    <GrGallery
+                                        className="mr-2 text-blue-400 md:text-2xl text-base"
+                                    />
+                                    <p>{img.name.length > 15 ? img.name.slice(0, 14) + '...' : img.name}</p>
+                                    <FiDelete
+                                        className="ml-2  md:text-2xl text-base -mt-2 text-red-500 cursor-pointer "
+                                        onClick={removeImg}
+                                    />
+                                    <AiOutlineSend
+                                        className="ml-4  md:text-2xl text-base  text-blue-600 cursor-pointer "
+
+                                        onClick={submitDetais}
+                                    />
+
+                                </div>
+                            )
+                        }
+                        <form className='h-20 darkGrayColor flex items-center justify-center smallScreenPadding'>
                             <div className='bg-white p-3 flex justify-center rounded-lg items-center mr-3'>
                                 <label htmlFor="img">
                                     <GrGallery
@@ -109,7 +142,7 @@ const TextArea = ({ chatUser, msgs }) => {
                             />
                             <ButtonComp
                                 btnText={'Send'}
-                                className="darkGrayColor py-2 px-5 rounded-lg text-white font-medium"
+                                className="ring-1 ring-gray-300 py-2 px-5 rounded-lg text-white font-medium"
                                 submitDetais={submitDetais}
                             />
                         </form>
