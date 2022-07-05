@@ -16,3 +16,17 @@ export const ButtonComp = ({ btnText, className, submitDetais }) => (
         onClick={submitDetais}
     >{btnText}</button>
 )
+
+export const ChatText = () => (
+    <div className='h-16 bg-white my-3 px-3 flex items-center'>
+        <p>Chats</p>
+    </div>
+)
+
+export const TextComp = () => (
+    <div className='h-full w-full flex justify-center items-center'
+    >
+        <p
+            className='text-center py-2 font-semibold text-white'
+        >No user found</p></div>
+)

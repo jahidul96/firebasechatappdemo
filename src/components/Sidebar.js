@@ -1,76 +1,83 @@
-import React from 'react'
-import { auth } from '../firebase'
+import React, { useEffect, useState } from 'react'
+import { auth, db } from '../firebase'
 import Person from '../images/person.jpg'
-import { BiLogOutCircle, BiCheckDouble } from 'react-icons/bi'
+import { BiLogOutCircle } from 'react-icons/bi'
 import { signOut } from 'firebase/auth'
+import { onSnapshot, doc } from 'firebase/firestore'
+import { IoMdPhotos } from 'react-icons/io'
 
-const Sidebar = ({ selectUser, users }) => {
+
+export const ChatUser = ({ user, selectUser }) => {
+
+    const user2 = user?.uid;
+    const currentUser = auth?.currentUser.email
+    const thisUser = auth?.currentUser?.uid
+    const [lastMsg, setLastMsg] = useState("");
 
 
+    useEffect(() => {
+        const id = thisUser > user2 ? `${thisUser + user2}` : `${user2 + thisUser}`;
+        let unsub = onSnapshot(doc(db, "lastMsg", id), (doc) => {
+            setLastMsg(doc.data());
+        });
+        return () => unsub();
+    }, []);
+    console.log(lastMsg)
     return (
-        <div className='w-80 h-full overflow-y-auto sideBarStyle'>
-            <Profile />
-            <div className='h-16 bg-white my-3 px-3 flex items-center'>
-                <p>Chats</p>
-            </div>
-            <ChatUser selectUser={selectUser} users={users} />
-        </div>
-    )
-}
+        <div
+            className='flex  my-3  cursor-pointer  items-center justify-between  px-2 py-3 lightGary'
+            onClick={() => selectUser(user)}
+        >
+            <div className='flex items-center'>
+                <img
+                    className='w-8 h-8 rounded-xl '
+                    src={Person} alt='avator' />
+                <div className='ml-3'>
+                    <p className='text-xs font-medium mb-1'>{user?.username.toUpperCase()}</p>
+                    <div className='flex items-center'>
 
-export default Sidebar
+                        {lastMsg && (
+                            <div className='flex items-center'>
 
-export const ChatUser = ({ selectUser, users }) => {
-    return (
-        <>
-            {
-                users.length ? users.map(user => (
-                    <div
-                        key={user.uid}
-                        className='flex  my-3  cursor-pointer  items-center justify-between  px-2 py-3 lightGary'
-                        onClick={() => selectUser(user)}
-                    >
-                        <div className='flex items-center'>
-                            <img
-                                className='w-8 h-8 rounded-xl '
-                                src={Person} alt='avator' />
-                            <div className='ml-3'>
-                                <p className='text-base font-medium mb-1'>{user.username}</p>
-                                <div className='flex items-center'>
-                                    <BiCheckDouble
-                                        className='text-lg text-blue-400 mr-1'
-                                    />
-                                    <p className='text-sm'>last msg</p>
-                                </div>
+                                <small className='mr-1 text-xs'>{lastMsg.from == currentUser ? 'You:' : ''}</small>
+                                {
+                                    lastMsg.Image ? <IoMdPhotos
+                                        className="mt-1 text-black  text-xs"
+                                    /> : <p className="text-xs">
+                                        {lastMsg?.text.length > 10 ? lastMsg.text.slice(0, 9) + '...' : lastMsg.text}
+                                    </p>
+                                }
 
                             </div>
-                        </div>
 
-                        <div>
-                            <p className='text-xs'>5July22</p>
-                        </div>
+                        )}
+
                     </div>
-                )) :
-                    <div
-                        className='h-full w-full flex justify-center items-center'
-                    >
-                        <p
-                            className='text-center py-2 font-semibold text-white'
-                        >No user found</p></div>
+
+                </div>
+            </div>
+            {
+                lastMsg?.read == false && lastMsg.from != currentUser && <div className='w-5 h-5 rounded-full bg-red-600 flex items-center justify-center '>
+                    <p className='text-xs text-white'>1</p>
+                </div>
             }
-        </>
+
+
+        </div>
     )
 }
 
 
 export const Profile = () => {
+
+
     const signOutHandler = async () => {
         window.confirm('sure you want to logout?')
         await signOut(auth)
 
     }
     return (
-        <div className='h-28 darkBlueColor md:rounded-bl-3xl  flex items-center justify-between px-2'>
+        <div className='h-28 profileColor md:rounded-bl-3xl md:rounded-br-3xl  flex items-center justify-between px-2'>
             <div
                 className='flex items-center'
 
@@ -78,7 +85,7 @@ export const Profile = () => {
                 <img
                     className='w-6 h-6 rounded-xl '
                     src={Person} alt='avator' />
-                <p className='ml-2 font-semibold'>{auth?.currentUser?.email.length > 6 ? auth?.currentUser.email.slice(0, 7) + '.' : 'You'}</p>
+                <p className='ml-2 font-semibold'>{auth?.currentUser?.email.length > 6 ? auth?.currentUser.email.slice(0, 5) + '...' : 'YourName'}</p>
             </div>
             <div
                 className='bg-white p-1 rounded-full '
@@ -91,3 +98,5 @@ export const Profile = () => {
         </div>
     )
 }
+
+

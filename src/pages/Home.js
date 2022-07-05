@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Sidebar, { ChatUser, Profile } from "../components/Sidebar";
 import TextArea from "../components/TextArea";
 
-import { collection, getDocs, doc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
+import { collection, getDocs, doc, orderBy, query, where, onSnapshot, updateDoc } from 'firebase/firestore'
 import { auth, db } from "../firebase";
+import { ChatText, TextComp } from "../components/Reuse";
 
 
 
@@ -18,11 +19,9 @@ export default function Home() {
     const thisUser = auth.currentUser.uid
 
 
-
-
     const usersRef = collection(db, 'users')
 
-    const selectUser = (chattter) => {
+    const selectUser = async (chattter) => {
         setChatUser(chattter)
 
         const id = thisUser > chattter.uid ? `${thisUser + chattter.uid}` : `${chattter.uid + thisUser}`;
@@ -37,6 +36,10 @@ export default function Home() {
             });
             setMessages(msgs);
         });
+
+        await updateDoc(doc(db, 'lastMsg', id), {
+            read: true
+        })
 
         window.scrollTo(2000, 2000)
 
@@ -56,29 +59,50 @@ export default function Home() {
             setUsers(users)
 
         });
+
+
     }, [])
 
     return (
         <div>
-            <div className='w-full  px-2 md:hidden sm:block'>
+            <div className='w-full  md:hidden sm:block'>
                 <Profile />
             </div>
+
+            {/* small screen users div */}
             <div className='w-full md:hidden sm:block'>
-                <ChatUser
-                    selectUser={selectUser}
-                    users={users}
-                />
+                {
+                    users.length ? users.map(user => (
+                        <ChatUser
+                            user={user}
+                            key={user.uid}
+                            selectUser={selectUser}
+                        />
+                    )) : <TextComp />
+                }
             </div>
             <div className="flex md:divide-x md:divide-slate-500 overflow-hidden">
-                <div className="md:block hidden ">
-                    <Sidebar
-                        selectUser={selectUser}
-                        users={users}
-                        chatUser={chatUser}
-                    />
+
+                {/* sidebar area */}
+
+
+                <div className=' w-80  md:block hidden overflow-y-auto sideBarStyle'>
+                    <Profile />
+                    <ChatText />
+                    {
+                        users.length ? users.map(user => (
+                            <ChatUser
+                                user={user}
+                                key={user.uid}
+                                selectUser={selectUser}
+                            />
+                        )) : <TextComp />
+                    }
                 </div>
 
-                <div className="md:flex-1  textAreaHeight">
+                {/* textfileld area */}
+
+                <div className="flex-1 ">
                     <TextArea
                         chatUser={chatUser}
                         msgs={messages}

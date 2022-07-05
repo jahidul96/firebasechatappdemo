@@ -17,8 +17,8 @@
     @apply rounded-lg shadow-md p-3 flex flex-col justify-center items-center
 }
 
-.similatmasTextStyle {
-    @apply font-normal text-xs align-baseline msgTextStyle p-2 mb-3 rounded-md
+.similarTextStyle {
+    @apply font-normal text-xs p-2 mb-3 rounded-md
 }
 
 .myMsg {
@@ -52,11 +52,11 @@
 
 .textAreaHeight {
     height: 100vh;
-    width: 100%;
     position: relative;
 
 
 }
+
 
 
 .smallScreenPadding {
@@ -67,33 +67,32 @@
 
 .messagesDiv {
     width: 100%;
-    height: 515px;
+    height: 512px;
     background-image: url(./images/bg.jpg);
     background-position: center;
     background-size: cover;
+    overflow-y: auto;
 
 }
 
 .msgTextStyle {
-    max-width: 45%;
+    max-width: 55%;
     min-height: 40px;
     display: flex;
     align-items: center;
 }
 
 .chatMsgImgWrapper {
-    max-width: 45%;
+    max-width: 55%;
 }
 
 .chatMsgImgWrapper>img {
     width: 100%;
     max-height: 300px;
+    margin: 10px 0;
 }
 
-.chatMsgImgWrapper>p {
-    max-width: 100%;
-    min-height: 40px;
-}
+
 
 @media(max-width:400px) {
     .smallScreenPadding {
@@ -101,11 +100,11 @@
     }
 }
 
-.darkBlueColor {
+.profileColor {
     background-color: #edf2f4;
 }
 
-.darkGrayColor {
+.darkBluishColor {
     background-color: #06283D;
 }
 
