@@ -19,7 +19,7 @@ export const ButtonComp = ({ btnText, className, submitDetais }) => (
 
 export const ChatText = () => (
     <div className='h-16 bg-white my-3 px-3 flex items-center'>
-        <p>Chats</p>
+        <p className="font-medium">Chats</p>
     </div>
 )
 
