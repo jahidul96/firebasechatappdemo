@@ -6,6 +6,7 @@ import { auth } from '../firebase'
 const Login = ({ setShow }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(true)
 
 
     const submitDetais = async () => {
@@ -16,16 +17,20 @@ const Login = ({ setShow }) => {
             return alert('please provide right creadential!')
         }
         try {
+            setLoading(false)
             await signInWithEmailAndPassword(auth, email, password)
             console.log('login succesfull')
+            setLoading(true)
         } catch (err) {
+
             alert(err.message)
+            setLoading(true)
         }
 
     }
     return (
         <div
-            className='h-screen w-full flex justify-center items-center darkGrayColor'
+            className='h-screen w-full flex justify-center items-center darkBluishColor'
         >
             <div
                 className='
@@ -54,6 +59,8 @@ const Login = ({ setShow }) => {
                     btnText='Login'
                     className="darkGrayColor btnStyle "
                     submitDetais={submitDetais}
+                    loading={loading}
+                    loadingText="Loging..in."
                 />
                 <div
                     className='
