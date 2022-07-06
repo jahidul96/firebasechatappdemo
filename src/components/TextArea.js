@@ -162,7 +162,8 @@ const ImgSendComp = ({ img, removeImg, submitDetais }) => (
 
 
 
-const TextInputComp = ({ setImg, setText, submitDetais, text }) => {
+const TextInputComp = ({ setImg, setText, submitDetais, text, loading }) => {
+
     return (
         <form className='h-20 darkBluishColor flex items-center justify-center smallScreenPadding'>
             <div className='bg-white p-3 flex justify-center rounded-lg items-center mr-3'>
@@ -188,6 +189,7 @@ const TextInputComp = ({ setImg, setText, submitDetais, text }) => {
             />
             <ButtonComp
                 btnText={'Send'}
+                noNeed={true}
                 className="ring-1 ring-gray-300 py-2 px-5 rounded-lg text-white font-medium"
                 submitDetais={submitDetais}
             />

@@ -10,11 +10,11 @@ export const InputComp = ({ placeholder, className, setValue, type, value }) => 
     />
 )
 
-export const ButtonComp = ({ btnText, className, submitDetais, loading, loadingText }) => (
+export const ButtonComp = ({ btnText, className, submitDetais, loading, noNeed, loadingText }) => (
     <button
         className={className}
         onClick={submitDetais}
-    >{loading ? btnText : loadingText}</button>
+    >{noNeed ? btnText : loading ? btnText : loadingText}</button>
 )
 
 export const ChatText = () => (
